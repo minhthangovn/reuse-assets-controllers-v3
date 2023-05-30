@@ -247,6 +247,9 @@ export class TokenListController extends BaseControllerV2<
    * Fetching token list from the Token Service API.
    */
   async fetchTokenList(): Promise<void> {
+
+    console.log("🌈🌈🌈 fetchTokenList  🌈🌈🌈");
+
     const releaseLock = await this.mutex.acquire();
     try {
       const { tokensChainsCache } = this.state;
@@ -307,6 +310,9 @@ export class TokenListController extends BaseControllerV2<
           tokenList[token.address] = formattedToken;
         }
       }
+      
+      console.log("### tokenList: ", tokenList);
+      
       const updatedTokensChainsCache: TokensChainsCache = {
         ...tokensChainsCache,
         [this.chainId]: {

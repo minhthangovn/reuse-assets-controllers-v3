@@ -1,9 +1,38 @@
 import { timeoutFetch } from '@metamask/controller-utils';
 import { isTokenListSupportedForNetwork } from './assetsUtil';
+import { NetworksChainId } from '@metamask/controller-utils';
 
 export const TOKEN_END_POINT_API = 'https://token-api.metaswap.codefi.network';
 export const TOKEN_METADATA_NO_SUPPORT_ERROR =
   'TokenService Error: Network does not support fetchTokenMetadata';
+// Tron token URL
+export const MAINNET_TOKEN_END_POINT_API = 'https://api.trongrid.io';
+export const TRONGRID_TOKEN_END_POINT_API = 'https://api.shasta.trongrid.io';
+export const NILE_TOKEN_END_POINT_API = 'https://nile.trongrid.io';
+export const WALLET = 'wallet';
+export const WALLETSOLIDITY = 'walletsolidity';
+
+function getTronENDPOINTAPI(chainId: string) {
+  let url = TRONGRID_TOKEN_END_POINT_API;
+
+  // switch (chainId) {
+  //   case NetworksChainId.TronMainet:
+  //     url = MAINNET_TOKEN_END_POINT_API;
+  //     break;
+  //   case NetworksChainId.TronGrid:
+  //     url = TRONGRID_TOKEN_END_POINT_API;
+  //     break;
+  //   case NetworksChainId.TronNile:
+  //     url = NILE_TOKEN_END_POINT_API;
+  //     break;
+  // }
+
+  return url;
+}
+
+function isETHNetwork(chainId: string) {
+  return chainId < '990';
+}
 
 /**
  * Get the tokens URL for a specific network.
@@ -12,7 +41,9 @@ export const TOKEN_METADATA_NO_SUPPORT_ERROR =
  * @returns The tokens URL.
  */
 function getTokensURL(chainId: string) {
-  return `${TOKEN_END_POINT_API}/tokens/${chainId}`;
+  return isETHNetwork(chainId)
+    ? `${TOKEN_END_POINT_API}/tokens/${chainId}`
+    : `${getTronENDPOINTAPI(chainId)}/${WALLET}/getassetissuelist`;
 }
 
 /**
@@ -23,7 +54,11 @@ function getTokensURL(chainId: string) {
  * @returns The token metadata URL.
  */
 function getTokenMetadataURL(chainId: string, tokenAddress: string) {
-  return `${TOKEN_END_POINT_API}/token/${chainId}?address=${tokenAddress}`;
+  return isETHNetwork(chainId)
+    ? `${TOKEN_END_POINT_API}/token/${chainId}?address=${tokenAddress}`
+    : `${getTronENDPOINTAPI(
+        chainId,
+      )}/${WALLETSOLIDITY}/getassetissuebyname?value=${tokenAddress}`;
 }
 
 const tenSecondsInMilliseconds = 10_000;
@@ -48,6 +83,9 @@ export async function fetchTokenList(
   { timeout = defaultTimeout } = {},
 ): Promise<unknown> {
   const tokenURL = getTokensURL(chainId);
+
+  console.log('#### tokenURL: ', tokenURL);
+
   const response = await queryApi(tokenURL, abortSignal, timeout);
   if (response) {
     return parseJsonResponse(response);

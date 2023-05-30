@@ -3,11 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./"
   },
-  "references": [
-    { "path": "../base-controller" },
-    { "path": "../controller-utils" },
-    { "path": "../network-controller" },
-    { "path": "../preferences-controller" }
-  ],
-  "include": ["../../types", "./src"]
+  "references": [],
+  "include": [
+    "../../types",
+    "./src"
+  ]
 }
