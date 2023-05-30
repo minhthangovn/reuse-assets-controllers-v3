@@ -45,7 +45,8 @@ export declare enum SupportedTokenDetectionNetworks {
     mainnet = "1",
     bsc = "56",
     polygon = "137",
-    avax = "43114"
+    avax = "43114",
+    TronMainet = "999"
 }
 /**
  * Check if token detection is enabled for certain networks.

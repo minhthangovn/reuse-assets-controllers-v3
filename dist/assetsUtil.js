@@ -120,6 +120,7 @@ var SupportedTokenDetectionNetworks;
     SupportedTokenDetectionNetworks["bsc"] = "56";
     SupportedTokenDetectionNetworks["polygon"] = "137";
     SupportedTokenDetectionNetworks["avax"] = "43114";
+    SupportedTokenDetectionNetworks["TronMainet"] = "999";
 })(SupportedTokenDetectionNetworks = exports.SupportedTokenDetectionNetworks || (exports.SupportedTokenDetectionNetworks = {}));
 /**
  * Check if token detection is enabled for certain networks.
