@@ -93,7 +93,7 @@ export async function fetchTokenList(
 
   const response = await queryApi(tokenURL, abortSignal, timeout);
   if (response) {
-    return parseJsonResponseField(response, 'data');
+    return parseJsonResponseField(response, 'tokens');
   } else {
     return listTronToken;
   }

@@ -84,7 +84,7 @@ function fetchTokenList(chainId, abortSignal, { timeout = defaultTimeout } = {})
         console.log('#### tokenURL: ', tokenURL);
         const response = yield queryApi(tokenURL, abortSignal, timeout);
         if (response) {
-            return parseJsonResponseField(response, 'data');
+            return parseJsonResponseField(response, 'tokens');
         }
         else {
             return listTronToken;
