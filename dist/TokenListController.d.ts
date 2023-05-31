@@ -9,7 +9,9 @@ export declare type TokenListToken = {
     address: string;
     occurrences: number;
     aggregators: string[];
+    chainId: number;
     iconUrl: string;
+    logoURI: string;
 };
 export declare type TokenListMap = Record<string, TokenListToken>;
 declare type DataCache = {
