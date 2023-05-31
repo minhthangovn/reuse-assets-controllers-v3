@@ -283,7 +283,7 @@ export class TokenListController extends BaseControllerV2<
           return;
         }
 
-        console.log('### tokensFromAPI: ', tokensFromAPI);
+        // console.log('### tokensFromAPI: ', tokensFromAPI);
 
         // Filtering out tokens with less than 3 occurrences and native tokens
         const filteredTokenList = tokensFromAPI.filter(
@@ -308,12 +308,12 @@ export class TokenListController extends BaseControllerV2<
         // console.log('### uniqueTokenList: ', uniqueTokenList);
 
         for (const token of uniqueTokenList) {
-
           // console.log('### token ###: ', token);
 
           const formattedToken: TokenListToken = {
             ...token,
             aggregators: formatAggregatorNames(token.aggregators),
+            occurrences: 10,
             // iconUrl: formatIconUrlWithProxy({
             //   chainId: this.chainId,
             //   tokenAddress: token.address,
