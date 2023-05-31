@@ -17,6 +17,8 @@ import { TOKEN_END_POINT_API } from './token-service';
 
 const name = 'TokenListController';
 const timestamp = Date.now();
+// const chainId = NetworksChainId.mainnet;
+const chainId = '9901';
 
 const sampleMainnetTokenList = [
   {
@@ -527,8 +529,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      // chainId: NetworksChainId.mainnet,
-      chainId: '999',
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
     });
@@ -550,7 +551,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       state: existingState,
@@ -600,7 +601,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       messenger,
     });
 
@@ -621,7 +622,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       interval: 100,
       messenger,
@@ -648,7 +649,7 @@ describe('TokenListController', () => {
   //   const messenger = getRestrictedMessenger(controllerMessenger);
 
   //   const controller = new TokenListController({
-  //     chainId: NetworksChainId.mainnet,
+  //     chainId,
   //     onNetworkStateChange: (callback) =>
   //       controllerMessenger.subscribe(
   //         'NetworkController:providerConfigChange',
@@ -684,7 +685,7 @@ describe('TokenListController', () => {
   //   setupNetworkController(controllerMessenger);
   //   const messenger = getRestrictedMessenger(controllerMessenger);
   //   const controller = new TokenListController({
-  //     chainId: NetworksChainId.mainnet,
+  //     chainId,
   //     preventPollingOnNetworkRestart: false,
   //     interval: 100,
   //     messenger,
@@ -713,7 +714,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       interval: 100,
       messenger,
@@ -745,7 +746,7 @@ describe('TokenListController', () => {
     const messenger = getRestrictedMessenger(controllerMessenger);
 
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       interval: 100,
       messenger,
@@ -770,8 +771,7 @@ describe('TokenListController', () => {
   });
 
   it('should call fetchTokenList on network that supports token detection', async () => {
-
-    console.log("🌈🌈🌈 call fetchTokenList on network  🌈🌈🌈");
+    console.log('🌈🌈🌈 call fetchTokenList on network  🌈🌈🌈');
 
     const tokenListMock = sinon.stub(
       TokenListController.prototype,
@@ -782,7 +782,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       interval: 100,
       messenger,
@@ -836,7 +836,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       interval: 750,
@@ -884,7 +884,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       interval: 100,
@@ -911,7 +911,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       state: existingState,
@@ -943,7 +943,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
     });
@@ -990,7 +990,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
     });
@@ -1018,7 +1018,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       state: outdatedExistingState,
@@ -1050,7 +1050,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       state: expiredCacheExistingState,
@@ -1090,7 +1090,7 @@ describe('TokenListController', () => {
   //   const { network } = setupNetworkController(controllerMessenger);
   //   const messenger = getRestrictedMessenger(controllerMessenger);
   //   const controller = new TokenListController({
-  //     chainId: NetworksChainId.mainnet,
+  //     chainId,
   //     preventPollingOnNetworkRestart: false,
   //     messenger,
   //     state: existingState,
@@ -1147,7 +1147,7 @@ describe('TokenListController', () => {
     setupNetworkController(controllerMessenger);
     const messenger = getRestrictedMessenger(controllerMessenger);
     const controller = new TokenListController({
-      chainId: NetworksChainId.mainnet,
+      chainId,
       preventPollingOnNetworkRestart: false,
       messenger,
       state: existingState,

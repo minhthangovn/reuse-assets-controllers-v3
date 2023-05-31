@@ -5,6 +5,7 @@ export declare const TRONGRID_TOKEN_END_POINT_API = "https://api.shasta.trongrid
 export declare const NILE_TOKEN_END_POINT_API = "https://nile.trongrid.io";
 export declare const WALLET = "wallet";
 export declare const WALLETSOLIDITY = "walletsolidity";
+export declare const MAINNET_URL_LIST_TOKEN_API = "https://list.justswap.link/justswap.json";
 /**
  * Fetch the list of token metadata for a given network. This request is cancellable using the
  * abort signal passed in.

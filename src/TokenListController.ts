@@ -305,30 +305,29 @@ export class TokenListController extends BaseControllerV2<
           (token) => !duplicateSymbols.includes(token.symbol),
         );
 
-        console.log('### uniqueTokenList: ', uniqueTokenList);
+        // console.log('### uniqueTokenList: ', uniqueTokenList);
 
         for (const token of uniqueTokenList) {
 
-          console.log('### token ###: ', token);
+          // console.log('### token ###: ', token);
 
           const formattedToken: TokenListToken = {
             ...token,
             aggregators: formatAggregatorNames(token.aggregators),
-            iconUrl: 'Need research',
             // iconUrl: formatIconUrlWithProxy({
             //   chainId: this.chainId,
             //   tokenAddress: token.address,
             // }),
           };
 
-          console.log('### formattedToken ###: ', formattedToken);
+          // console.log('### formattedToken ###: ', formattedToken);
 
           tokenList[token.address] = formattedToken;
         }
-        console.log('### tokensFromAPI ###: ', tokensFromAPI);
+        // console.log('### tokensFromAPI ###: ', tokensFromAPI);
       }
 
-      console.log('### tokenList: ', tokenList);
+      // console.log('### tokenList: ', tokenList);
 
       const updatedTokensChainsCache: TokensChainsCache = {
         ...tokensChainsCache,

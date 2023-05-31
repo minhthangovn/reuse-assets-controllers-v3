@@ -177,16 +177,16 @@ class TokenListController extends base_controller_1.BaseControllerV2 {
                         ...new Set(symbolsList.filter((symbol, index) => symbolsList.indexOf(symbol) !== index)),
                     ];
                     const uniqueTokenList = filteredTokenList.filter((token) => !duplicateSymbols.includes(token.symbol));
-                    console.log('### uniqueTokenList: ', uniqueTokenList);
+                    // console.log('### uniqueTokenList: ', uniqueTokenList);
                     for (const token of uniqueTokenList) {
-                        console.log('### token ###: ', token);
-                        const formattedToken = Object.assign(Object.assign({}, token), { aggregators: (0, assetsUtil_1.formatAggregatorNames)(token.aggregators), iconUrl: 'Need research' });
-                        console.log('### formattedToken ###: ', formattedToken);
+                        // console.log('### token ###: ', token);
+                        const formattedToken = Object.assign(Object.assign({}, token), { aggregators: (0, assetsUtil_1.formatAggregatorNames)(token.aggregators) });
+                        // console.log('### formattedToken ###: ', formattedToken);
                         tokenList[token.address] = formattedToken;
                     }
-                    console.log('### tokensFromAPI ###: ', tokensFromAPI);
+                    // console.log('### tokensFromAPI ###: ', tokensFromAPI);
                 }
-                console.log('### tokenList: ', tokenList);
+                // console.log('### tokenList: ', tokenList);
                 const updatedTokensChainsCache = Object.assign(Object.assign({}, tokensChainsCache), { [this.chainId]: {
                         timestamp: Date.now(),
                         data: tokenList,
