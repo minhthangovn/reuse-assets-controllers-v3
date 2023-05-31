@@ -247,8 +247,7 @@ export class TokenListController extends BaseControllerV2<
    * Fetching token list from the Token Service API.
    */
   async fetchTokenList(): Promise<void> {
-
-    console.log("🌈🌈🌈 fetchTokenList  🌈🌈🌈");
+    console.log('🌈🌈🌈 fetchTokenList  🌈🌈🌈');
 
     const releaseLock = await this.mutex.acquire();
     try {
@@ -257,10 +256,14 @@ export class TokenListController extends BaseControllerV2<
       const cachedTokens: TokenListMap = await safelyExecute(() =>
         this.fetchFromCache(),
       );
+
+      console.log('### cachedTokens: ', cachedTokens);
+
       if (cachedTokens) {
         // Use non-expired cached tokens
         tokenList = { ...cachedTokens };
       } else {
+        console.log('### fetchTokenList 01 ');
         // Fetch fresh token list
         const tokensFromAPI: TokenListToken[] = await safelyExecute(() =>
           fetchTokenList(this.chainId, this.abortController.signal),
@@ -279,11 +282,14 @@ export class TokenListController extends BaseControllerV2<
           });
           return;
         }
+
+        console.log('### tokensFromAPI: ', tokensFromAPI);
+
         // Filtering out tokens with less than 3 occurrences and native tokens
         const filteredTokenList = tokensFromAPI.filter(
           (token) =>
-            token.occurrences &&
-            token.occurrences >= 3 &&
+            // token.occurrences &&
+            // token.occurrences >= 3 &&
             token.address !== '0x0000000000000000000000000000000000000000',
         );
         // Removing the tokens with symbol conflicts
@@ -298,21 +304,32 @@ export class TokenListController extends BaseControllerV2<
         const uniqueTokenList = filteredTokenList.filter(
           (token) => !duplicateSymbols.includes(token.symbol),
         );
+
+        console.log('### uniqueTokenList: ', uniqueTokenList);
+
         for (const token of uniqueTokenList) {
+
+          console.log('### token ###: ', token);
+
           const formattedToken: TokenListToken = {
             ...token,
             aggregators: formatAggregatorNames(token.aggregators),
-            iconUrl: formatIconUrlWithProxy({
-              chainId: this.chainId,
-              tokenAddress: token.address,
-            }),
+            iconUrl: 'Need research',
+            // iconUrl: formatIconUrlWithProxy({
+            //   chainId: this.chainId,
+            //   tokenAddress: token.address,
+            // }),
           };
+
+          console.log('### formattedToken ###: ', formattedToken);
+
           tokenList[token.address] = formattedToken;
         }
+        console.log('### tokensFromAPI ###: ', tokensFromAPI);
       }
-      
-      console.log("### tokenList: ", tokenList);
-      
+
+      console.log('### tokenList: ', tokenList);
+
       const updatedTokensChainsCache: TokensChainsCache = {
         ...tokensChainsCache,
         [this.chainId]: {

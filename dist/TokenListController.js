@@ -141,17 +141,19 @@ class TokenListController extends base_controller_1.BaseControllerV2 {
     fetchTokenList() {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("🌈🌈🌈 fetchTokenList  🌈🌈🌈");
+            console.log('🌈🌈🌈 fetchTokenList  🌈🌈🌈');
             const releaseLock = yield this.mutex.acquire();
             try {
                 const { tokensChainsCache } = this.state;
                 let tokenList = {};
                 const cachedTokens = yield (0, controller_utils_1.safelyExecute)(() => this.fetchFromCache());
+                console.log('### cachedTokens: ', cachedTokens);
                 if (cachedTokens) {
                     // Use non-expired cached tokens
                     tokenList = Object.assign({}, cachedTokens);
                 }
                 else {
+                    console.log('### fetchTokenList 01 ');
                     // Fetch fresh token list
                     const tokensFromAPI = yield (0, controller_utils_1.safelyExecute)(() => (0, token_service_1.fetchTokenList)(this.chainId, this.abortController.signal));
                     if (!tokensFromAPI) {
@@ -163,25 +165,28 @@ class TokenListController extends base_controller_1.BaseControllerV2 {
                         });
                         return;
                     }
+                    console.log('### tokensFromAPI: ', tokensFromAPI);
                     // Filtering out tokens with less than 3 occurrences and native tokens
-                    const filteredTokenList = tokensFromAPI.filter((token) => token.occurrences &&
-                        token.occurrences >= 3 &&
-                        token.address !== '0x0000000000000000000000000000000000000000');
+                    const filteredTokenList = tokensFromAPI.filter((token) => 
+                    // token.occurrences &&
+                    // token.occurrences >= 3 &&
+                    token.address !== '0x0000000000000000000000000000000000000000');
                     // Removing the tokens with symbol conflicts
                     const symbolsList = filteredTokenList.map((token) => token.symbol);
                     const duplicateSymbols = [
                         ...new Set(symbolsList.filter((symbol, index) => symbolsList.indexOf(symbol) !== index)),
                     ];
                     const uniqueTokenList = filteredTokenList.filter((token) => !duplicateSymbols.includes(token.symbol));
+                    console.log('### uniqueTokenList: ', uniqueTokenList);
                     for (const token of uniqueTokenList) {
-                        const formattedToken = Object.assign(Object.assign({}, token), { aggregators: (0, assetsUtil_1.formatAggregatorNames)(token.aggregators), iconUrl: (0, assetsUtil_1.formatIconUrlWithProxy)({
-                                chainId: this.chainId,
-                                tokenAddress: token.address,
-                            }) });
+                        console.log('### token ###: ', token);
+                        const formattedToken = Object.assign(Object.assign({}, token), { aggregators: (0, assetsUtil_1.formatAggregatorNames)(token.aggregators), iconUrl: 'Need research' });
+                        console.log('### formattedToken ###: ', formattedToken);
                         tokenList[token.address] = formattedToken;
                     }
+                    console.log('### tokensFromAPI ###: ', tokensFromAPI);
                 }
-                console.log("### tokenList: ", tokenList);
+                console.log('### tokenList: ', tokenList);
                 const updatedTokensChainsCache = Object.assign(Object.assign({}, tokensChainsCache), { [this.chainId]: {
                         timestamp: Date.now(),
                         data: tokenList,
