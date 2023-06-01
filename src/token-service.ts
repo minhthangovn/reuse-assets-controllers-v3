@@ -22,7 +22,7 @@ function getTronENDPOINTAPI(chainId: string) {
   //   case NetworksChainId.TronMainet:
   //     url = MAINNET_TOKEN_END_POINT_API;
   //     break;
-  //   case NetworksChainId.TronGrid:
+  //   case NetworksChainId.TronShasta:
   //     url = TRONGRID_TOKEN_END_POINT_API;
   //     break;
   //   case NetworksChainId.TronNile:
@@ -33,8 +33,13 @@ function getTronENDPOINTAPI(chainId: string) {
   return url;
 }
 
-function isETHNetwork(chainId: string) {
-  return chainId < '9900';
+function isTronNetwork(chainId: string) {
+  // NetworksChainId.TronMainet,
+  // NetworksChainId.TronShasta,
+  // NetworksChainId.TronNile,
+  const listTronChainId: string[] = ['728126428', '2494104990', '3448148188'];
+
+  return listTronChainId.indexOf(chainId) > -1;
 }
 
 /**
@@ -44,9 +49,9 @@ function isETHNetwork(chainId: string) {
  * @returns The tokens URL.
  */
 function getTokensURL(chainId: string) {
-  // return isETHNetwork(chainId)
-  //   ? `${TOKEN_END_POINT_API}/tokens/${chainId}`
-  //   : MAINNET_URL_LIST_TOKEN_API;
+  // return isTronNetwork(chainId)
+  //   ? MAINNET_URL_LIST_TOKEN_API;
+  //   : `${TOKEN_END_POINT_API}/tokens/${chainId}`
   return MAINNET_URL_LIST_TOKEN_API;
 }
 
@@ -58,11 +63,11 @@ function getTokensURL(chainId: string) {
  * @returns The token metadata URL.
  */
 function getTokenMetadataURL(chainId: string, tokenAddress: string) {
-  return isETHNetwork(chainId)
-    ? `${TOKEN_END_POINT_API}/token/${chainId}?address=${tokenAddress}`
-    : `${getTronENDPOINTAPI(
+  return isTronNetwork(chainId)
+    ? `${getTronENDPOINTAPI(
         chainId,
-      )}/${WALLETSOLIDITY}/getassetissuebyname?value=${tokenAddress}`;
+      )}/${WALLETSOLIDITY}/getassetissuebyname?value=${tokenAddress}`
+    : `${TOKEN_END_POINT_API}/token/${chainId}?address=${tokenAddress}`;
 }
 
 const tenSecondsInMilliseconds = 10_000;

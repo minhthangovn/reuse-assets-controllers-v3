@@ -1,8 +1,8 @@
 /// <reference types="bn.js" />
-import { BigNumber } from '@ethersproject/bignumber';
-import { BN } from 'ethereumjs-util';
-import { Nft, NftMetadata } from './NftController';
-import { Token } from './TokenRatesController';
+import { BigNumber } from "@ethersproject/bignumber";
+import { BN } from "ethereumjs-util";
+import { Nft, NftMetadata } from "./NftController";
+import { Token } from "./TokenRatesController";
 /**
  * Compares nft metadata entries to any nft entry.
  * We need this method when comparing a new fetched nft metadata, in case a entry changed to a defined value,
@@ -46,7 +46,9 @@ export declare enum SupportedTokenDetectionNetworks {
     bsc = "56",
     polygon = "137",
     avax = "43114",
-    TronMainet = "999"
+    TronMainet = "728126428",
+    TronShasta = "2494104990",
+    TronNile = "3448148188"
 }
 /**
  * Check if token detection is enabled for certain networks.

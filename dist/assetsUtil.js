@@ -16,14 +16,14 @@ const ethereumjs_util_1 = require("ethereumjs-util");
  */
 function compareNftMetadata(newNftMetadata, nft) {
     const keys = [
-        'image',
-        'backgroundColor',
-        'imagePreview',
-        'imageThumbnail',
-        'imageOriginal',
-        'animation',
-        'animationOriginal',
-        'externalLink',
+        "image",
+        "backgroundColor",
+        "imagePreview",
+        "imageThumbnail",
+        "imageOriginal",
+        "animation",
+        "animationOriginal",
+        "externalLink",
     ];
     const differentValues = keys.reduce((value, key) => {
         if (newNftMetadata[key] && newNftMetadata[key] !== nft[key]) {
@@ -35,32 +35,33 @@ function compareNftMetadata(newNftMetadata, nft) {
 }
 exports.compareNftMetadata = compareNftMetadata;
 const aggregatorNameByKey = {
-    aave: 'Aave',
-    bancor: 'Bancor',
-    cmc: 'CMC',
-    cryptocom: 'Crypto.com',
-    coinGecko: 'CoinGecko',
-    oneInch: '1inch',
-    paraswap: 'Paraswap',
-    pmm: 'PMM',
-    zapper: 'Zapper',
-    zerion: 'Zerion',
-    zeroEx: '0x',
-    synthetix: 'Synthetix',
-    yearn: 'Yearn',
-    apeswap: 'ApeSwap',
-    binanceDex: 'BinanceDex',
-    pancakeTop100: 'PancakeTop100',
-    pancakeExtended: 'PancakeExtended',
-    balancer: 'Balancer',
-    quickswap: 'QuickSwap',
-    matcha: 'Matcha',
-    pangolinDex: 'PangolinDex',
-    pangolinDexStableCoin: 'PangolinDexStableCoin',
-    pangolinDexAvaxBridge: 'PangolinDexAvaxBridge',
-    traderJoe: 'TraderJoe',
-    airswapLight: 'AirswapLight',
-    kleros: 'Kleros',
+    aave: "Aave",
+    bancor: "Bancor",
+    cmc: "CMC",
+    cryptocom: "Crypto.com",
+    coinGecko: "CoinGecko",
+    oneInch: "1inch",
+    paraswap: "Paraswap",
+    pmm: "PMM",
+    zapper: "Zapper",
+    zerion: "Zerion",
+    zeroEx: "0x",
+    synthetix: "Synthetix",
+    yearn: "Yearn",
+    apeswap: "ApeSwap",
+    binanceDex: "BinanceDex",
+    pancakeTop100: "PancakeTop100",
+    pancakeExtended: "PancakeExtended",
+    balancer: "Balancer",
+    quickswap: "QuickSwap",
+    matcha: "Matcha",
+    pangolinDex: "PangolinDex",
+    pangolinDexStableCoin: "PangolinDexStableCoin",
+    pangolinDexAvaxBridge: "PangolinDexAvaxBridge",
+    traderJoe: "TraderJoe",
+    airswapLight: "AirswapLight",
+    kleros: "Kleros",
+    sunswap: "SunSwap",
 };
 /**
  * Formats aggregator names to presentable format.
@@ -93,10 +94,10 @@ exports.formatIconUrlWithProxy = formatIconUrlWithProxy;
  */
 function validateTokenToWatch(token) {
     const { address, symbol, decimals } = token;
-    if (!address || !symbol || typeof decimals === 'undefined') {
+    if (!address || !symbol || typeof decimals === "undefined") {
         throw eth_rpc_errors_1.ethErrors.rpc.invalidParams(`Must specify address, symbol, and decimals.`);
     }
-    if (typeof symbol !== 'string') {
+    if (typeof symbol !== "string") {
         throw eth_rpc_errors_1.ethErrors.rpc.invalidParams(`Invalid symbol: not a string.`);
     }
     if (symbol.length > 11) {
@@ -120,7 +121,9 @@ var SupportedTokenDetectionNetworks;
     SupportedTokenDetectionNetworks["bsc"] = "56";
     SupportedTokenDetectionNetworks["polygon"] = "137";
     SupportedTokenDetectionNetworks["avax"] = "43114";
-    SupportedTokenDetectionNetworks["TronMainet"] = "999";
+    SupportedTokenDetectionNetworks["TronMainet"] = "728126428";
+    SupportedTokenDetectionNetworks["TronShasta"] = "2494104990";
+    SupportedTokenDetectionNetworks["TronNile"] = "3448148188";
 })(SupportedTokenDetectionNetworks = exports.SupportedTokenDetectionNetworks || (exports.SupportedTokenDetectionNetworks = {}));
 /**
  * Check if token detection is enabled for certain networks.
@@ -153,14 +156,14 @@ exports.isTokenListSupportedForNetwork = isTokenListSupportedForNetwork;
  * @throws Will throw if the url passed is not IPFS.
  */
 function removeIpfsProtocolPrefix(ipfsUrl) {
-    if (ipfsUrl.startsWith('ipfs://ipfs/')) {
-        return ipfsUrl.replace('ipfs://ipfs/', '');
+    if (ipfsUrl.startsWith("ipfs://ipfs/")) {
+        return ipfsUrl.replace("ipfs://ipfs/", "");
     }
-    else if (ipfsUrl.startsWith('ipfs://')) {
-        return ipfsUrl.replace('ipfs://', '');
+    else if (ipfsUrl.startsWith("ipfs://")) {
+        return ipfsUrl.replace("ipfs://", "");
     }
     // this method should not be used with non-ipfs urls (i.e. startsWith('ipfs://') === true)
-    throw new Error('this method should not be used with non ipfs urls');
+    throw new Error("this method should not be used with non ipfs urls");
 }
 exports.removeIpfsProtocolPrefix = removeIpfsProtocolPrefix;
 /**
@@ -174,7 +177,7 @@ function getIpfsCIDv1AndPath(ipfsUrl) {
     const url = removeIpfsProtocolPrefix(ipfsUrl);
     // check if there is a path
     // (CID is everything preceding first forward slash, path is everything after)
-    const index = url.indexOf('/');
+    const index = url.indexOf("/");
     const cid = index !== -1 ? url.substring(0, index) : url;
     const path = index !== -1 ? url.substring(index) : undefined;
     // We want to ensure that the CID is v1 (https://docs.ipfs.io/concepts/content-addressing/#identifier-formats)
@@ -197,7 +200,7 @@ function getFormattedIpfsUrl(ipfsGateway, ipfsUrl, subdomainSupported) {
     const { host, protocol, origin } = new URL(addUrlProtocolPrefix(ipfsGateway));
     if (subdomainSupported) {
         const { cid, path } = getIpfsCIDv1AndPath(ipfsUrl);
-        return `${protocol}//${cid}.ipfs.${host}${path !== null && path !== void 0 ? path : ''}`;
+        return `${protocol}//${cid}.ipfs.${host}${path !== null && path !== void 0 ? path : ""}`;
     }
     const cidAndPath = removeIpfsProtocolPrefix(ipfsUrl);
     return `${origin}/ipfs/${cidAndPath}`;
@@ -223,7 +226,7 @@ exports.addUrlProtocolPrefix = addUrlProtocolPrefix;
  * @returns A BN object.
  */
 function ethersBigNumberToBN(bigNumber) {
-    return new ethereumjs_util_1.BN((0, ethereumjs_util_1.stripHexPrefix)(bigNumber.toHexString()), 'hex');
+    return new ethereumjs_util_1.BN((0, ethereumjs_util_1.stripHexPrefix)(bigNumber.toHexString()), "hex");
 }
 exports.ethersBigNumberToBN = ethersBigNumberToBN;
 //# sourceMappingURL=assetsUtil.js.map

@@ -1,14 +1,14 @@
-import { ethErrors } from 'eth-rpc-errors';
-import { CID } from 'multiformats/cid';
+import { ethErrors } from "eth-rpc-errors";
+import { CID } from "multiformats/cid";
 import {
   convertHexToDecimal,
   isValidHexAddress,
   GANACHE_CHAIN_ID,
-} from '@metamask/controller-utils';
-import { BigNumber } from '@ethersproject/bignumber';
-import { BN, stripHexPrefix } from 'ethereumjs-util';
-import { Nft, NftMetadata } from './NftController';
-import { Token } from './TokenRatesController';
+} from "@metamask/controller-utils";
+import { BigNumber } from "@ethersproject/bignumber";
+import { BN, stripHexPrefix } from "ethereumjs-util";
+import { Nft, NftMetadata } from "./NftController";
+import { Token } from "./TokenRatesController";
 
 /**
  * Compares nft metadata entries to any nft entry.
@@ -21,14 +21,14 @@ import { Token } from './TokenRatesController';
  */
 export function compareNftMetadata(newNftMetadata: NftMetadata, nft: Nft) {
   const keys: (keyof NftMetadata)[] = [
-    'image',
-    'backgroundColor',
-    'imagePreview',
-    'imageThumbnail',
-    'imageOriginal',
-    'animation',
-    'animationOriginal',
-    'externalLink',
+    "image",
+    "backgroundColor",
+    "imagePreview",
+    "imageThumbnail",
+    "imageOriginal",
+    "animation",
+    "animationOriginal",
+    "externalLink",
   ];
   const differentValues = keys.reduce((value, key) => {
     if (newNftMetadata[key] && newNftMetadata[key] !== nft[key]) {
@@ -40,32 +40,33 @@ export function compareNftMetadata(newNftMetadata: NftMetadata, nft: Nft) {
 }
 
 const aggregatorNameByKey: Record<string, string> = {
-  aave: 'Aave',
-  bancor: 'Bancor',
-  cmc: 'CMC',
-  cryptocom: 'Crypto.com',
-  coinGecko: 'CoinGecko',
-  oneInch: '1inch',
-  paraswap: 'Paraswap',
-  pmm: 'PMM',
-  zapper: 'Zapper',
-  zerion: 'Zerion',
-  zeroEx: '0x',
-  synthetix: 'Synthetix',
-  yearn: 'Yearn',
-  apeswap: 'ApeSwap',
-  binanceDex: 'BinanceDex',
-  pancakeTop100: 'PancakeTop100',
-  pancakeExtended: 'PancakeExtended',
-  balancer: 'Balancer',
-  quickswap: 'QuickSwap',
-  matcha: 'Matcha',
-  pangolinDex: 'PangolinDex',
-  pangolinDexStableCoin: 'PangolinDexStableCoin',
-  pangolinDexAvaxBridge: 'PangolinDexAvaxBridge',
-  traderJoe: 'TraderJoe',
-  airswapLight: 'AirswapLight',
-  kleros: 'Kleros',
+  aave: "Aave",
+  bancor: "Bancor",
+  cmc: "CMC",
+  cryptocom: "Crypto.com",
+  coinGecko: "CoinGecko",
+  oneInch: "1inch",
+  paraswap: "Paraswap",
+  pmm: "PMM",
+  zapper: "Zapper",
+  zerion: "Zerion",
+  zeroEx: "0x",
+  synthetix: "Synthetix",
+  yearn: "Yearn",
+  apeswap: "ApeSwap",
+  binanceDex: "BinanceDex",
+  pancakeTop100: "PancakeTop100",
+  pancakeExtended: "PancakeExtended",
+  balancer: "Balancer",
+  quickswap: "QuickSwap",
+  matcha: "Matcha",
+  pangolinDex: "PangolinDex",
+  pangolinDexStableCoin: "PangolinDexStableCoin",
+  pangolinDexAvaxBridge: "PangolinDexAvaxBridge",
+  traderJoe: "TraderJoe",
+  airswapLight: "AirswapLight",
+  kleros: "Kleros",
+  sunswap: "SunSwap",
 };
 
 /**
@@ -78,7 +79,7 @@ export const formatAggregatorNames = (aggregators: string[]) => {
   return aggregators.map(
     (key) =>
       aggregatorNameByKey[key] ||
-      `${key[0].toUpperCase()}${key.substring(1, key.length)}`,
+      `${key[0].toUpperCase()}${key.substring(1, key.length)}`
   );
 };
 
@@ -108,25 +109,25 @@ export const formatIconUrlWithProxy = ({
  */
 export function validateTokenToWatch(token: Token) {
   const { address, symbol, decimals } = token;
-  if (!address || !symbol || typeof decimals === 'undefined') {
+  if (!address || !symbol || typeof decimals === "undefined") {
     throw ethErrors.rpc.invalidParams(
-      `Must specify address, symbol, and decimals.`,
+      `Must specify address, symbol, and decimals.`
     );
   }
 
-  if (typeof symbol !== 'string') {
+  if (typeof symbol !== "string") {
     throw ethErrors.rpc.invalidParams(`Invalid symbol: not a string.`);
   }
 
   if (symbol.length > 11) {
     throw ethErrors.rpc.invalidParams(
-      `Invalid symbol "${symbol}": longer than 11 characters.`,
+      `Invalid symbol "${symbol}": longer than 11 characters.`
     );
   }
   const numDecimals = parseInt(decimals as unknown as string, 10);
   if (isNaN(numDecimals) || numDecimals > 36 || numDecimals < 0) {
     throw ethErrors.rpc.invalidParams(
-      `Invalid decimals "${decimals}": must be 0 <= 36.`,
+      `Invalid decimals "${decimals}": must be 0 <= 36.`
     );
   }
 
@@ -139,11 +140,13 @@ export function validateTokenToWatch(token: Token) {
  * Networks where token detection is supported - Values are in decimal format
  */
 export enum SupportedTokenDetectionNetworks {
-  mainnet = '1',
-  bsc = '56',
-  polygon = '137',
-  avax = '43114',
-  TronMainet = '999',
+  mainnet = "1",
+  bsc = "56",
+  polygon = "137",
+  avax = "43114",
+  TronMainet = "728126428",
+  TronShasta = "2494104990",
+  TronNile = "3448148188",
 }
 
 /**
@@ -154,7 +157,7 @@ export enum SupportedTokenDetectionNetworks {
  */
 export function isTokenDetectionSupportedForNetwork(chainId: string): boolean {
   return Object.values<string>(SupportedTokenDetectionNetworks).includes(
-    chainId,
+    chainId
   );
 }
 
@@ -181,13 +184,13 @@ export function isTokenListSupportedForNetwork(chainId: string): boolean {
  * @throws Will throw if the url passed is not IPFS.
  */
 export function removeIpfsProtocolPrefix(ipfsUrl: string) {
-  if (ipfsUrl.startsWith('ipfs://ipfs/')) {
-    return ipfsUrl.replace('ipfs://ipfs/', '');
-  } else if (ipfsUrl.startsWith('ipfs://')) {
-    return ipfsUrl.replace('ipfs://', '');
+  if (ipfsUrl.startsWith("ipfs://ipfs/")) {
+    return ipfsUrl.replace("ipfs://ipfs/", "");
+  } else if (ipfsUrl.startsWith("ipfs://")) {
+    return ipfsUrl.replace("ipfs://", "");
   }
   // this method should not be used with non-ipfs urls (i.e. startsWith('ipfs://') === true)
-  throw new Error('this method should not be used with non ipfs urls');
+  throw new Error("this method should not be used with non ipfs urls");
 }
 
 /**
@@ -205,7 +208,7 @@ export function getIpfsCIDv1AndPath(ipfsUrl: string): {
 
   // check if there is a path
   // (CID is everything preceding first forward slash, path is everything after)
-  const index = url.indexOf('/');
+  const index = url.indexOf("/");
   const cid = index !== -1 ? url.substring(0, index) : url;
   const path = index !== -1 ? url.substring(index) : undefined;
 
@@ -228,12 +231,12 @@ export function getIpfsCIDv1AndPath(ipfsUrl: string): {
 export function getFormattedIpfsUrl(
   ipfsGateway: string,
   ipfsUrl: string,
-  subdomainSupported: boolean,
+  subdomainSupported: boolean
 ): string {
   const { host, protocol, origin } = new URL(addUrlProtocolPrefix(ipfsGateway));
   if (subdomainSupported) {
     const { cid, path } = getIpfsCIDv1AndPath(ipfsUrl);
-    return `${protocol}//${cid}.ipfs.${host}${path ?? ''}`;
+    return `${protocol}//${cid}.ipfs.${host}${path ?? ""}`;
   }
   const cidAndPath = removeIpfsProtocolPrefix(ipfsUrl);
   return `${origin}/ipfs/${cidAndPath}`;
@@ -259,5 +262,5 @@ export function addUrlProtocolPrefix(urlString: string): string {
  * @returns A BN object.
  */
 export function ethersBigNumberToBN(bigNumber: BigNumber): BN {
-  return new BN(stripHexPrefix(bigNumber.toHexString()), 'hex');
+  return new BN(stripHexPrefix(bigNumber.toHexString()), "hex");
 }
