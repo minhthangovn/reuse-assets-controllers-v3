@@ -80,8 +80,8 @@ const defaultTimeout = tenSecondsInMilliseconds;
 function fetchTokenList(chainId, abortSignal, { timeout = defaultTimeout } = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         const tokenURL = getTokensURL(chainId);
-        console.log('#### chainId: ', chainId);
-        console.log('#### tokenURL: ', tokenURL);
+        // console.log('#### chainId: ', chainId);
+        // console.log('#### tokenURL: ', tokenURL);
         const response = yield queryApi(tokenURL, abortSignal, timeout);
         if (response) {
             return parseJsonResponseField(response, 'tokens');

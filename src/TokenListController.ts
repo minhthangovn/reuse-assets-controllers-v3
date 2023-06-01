@@ -259,13 +259,13 @@ export class TokenListController extends BaseControllerV2<
         this.fetchFromCache(),
       );
 
-      console.log('### cachedTokens: ', cachedTokens);
+      // console.log('### cachedTokens: ', cachedTokens);
 
       if (cachedTokens) {
         // Use non-expired cached tokens
         tokenList = { ...cachedTokens };
       } else {
-        console.log('### fetchTokenList 01 ');
+        // console.log('### fetchTokenList 01 ');
         // Fetch fresh token list
         const tokensFromAPI: TokenListToken[] = await safelyExecute(() =>
           fetchTokenList(this.chainId, this.abortController.signal),
@@ -308,13 +308,15 @@ export class TokenListController extends BaseControllerV2<
         );
 
         // console.log('### uniqueTokenList: ', uniqueTokenList);
-
+        const addTronToken = {
+          occurrences: 10,
+          aggregators: ['SunSwap'],
+          fees: {},
+        };
         for (const token of uniqueTokenList) {
           const formattedToken: TokenListToken = {
             ...token,
-            occurrences: 10,
-            chainId: 999,
-            aggregators: ['SunSwap'],
+            ...addTronToken,
             iconUrl: token.logoURI,
             // aggregators: formatAggregatorNames(token.aggregators),
             // iconUrl: formatIconUrlWithProxy({
@@ -328,7 +330,7 @@ export class TokenListController extends BaseControllerV2<
         // console.log('### tokensFromAPI ###: ', tokensFromAPI);
       }
 
-      console.log('### tokenList: ', tokenList);
+      // console.log('### tokenList: ', tokenList);
 
       const updatedTokensChainsCache: TokensChainsCache = {
         ...tokensChainsCache,

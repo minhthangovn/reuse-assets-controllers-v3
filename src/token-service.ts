@@ -88,8 +88,8 @@ export async function fetchTokenList(
 ): Promise<unknown> {
   const tokenURL = getTokensURL(chainId);
 
-  console.log('#### chainId: ', chainId);
-  console.log('#### tokenURL: ', tokenURL);
+  // console.log('#### chainId: ', chainId);
+  // console.log('#### tokenURL: ', tokenURL);
 
   const response = await queryApi(tokenURL, abortSignal, timeout);
   if (response) {

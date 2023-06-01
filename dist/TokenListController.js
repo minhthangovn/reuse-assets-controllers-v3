@@ -147,13 +147,13 @@ class TokenListController extends base_controller_1.BaseControllerV2 {
                 const { tokensChainsCache } = this.state;
                 let tokenList = {};
                 const cachedTokens = yield (0, controller_utils_1.safelyExecute)(() => this.fetchFromCache());
-                console.log('### cachedTokens: ', cachedTokens);
+                // console.log('### cachedTokens: ', cachedTokens);
                 if (cachedTokens) {
                     // Use non-expired cached tokens
                     tokenList = Object.assign({}, cachedTokens);
                 }
                 else {
-                    console.log('### fetchTokenList 01 ');
+                    // console.log('### fetchTokenList 01 ');
                     // Fetch fresh token list
                     const tokensFromAPI = yield (0, controller_utils_1.safelyExecute)(() => (0, token_service_1.fetchTokenList)(this.chainId, this.abortController.signal));
                     if (!tokensFromAPI) {
@@ -178,13 +178,18 @@ class TokenListController extends base_controller_1.BaseControllerV2 {
                     ];
                     const uniqueTokenList = filteredTokenList.filter((token) => !duplicateSymbols.includes(token.symbol));
                     // console.log('### uniqueTokenList: ', uniqueTokenList);
+                    const addTronToken = {
+                        occurrences: 10,
+                        aggregators: ['SunSwap'],
+                        fees: {},
+                    };
                     for (const token of uniqueTokenList) {
-                        const formattedToken = Object.assign(Object.assign({}, token), { occurrences: 10, chainId: 999, aggregators: ['SunSwap'], iconUrl: token.logoURI });
+                        const formattedToken = Object.assign(Object.assign(Object.assign({}, token), addTronToken), { iconUrl: token.logoURI });
                         tokenList[token.address] = formattedToken;
                     }
                     // console.log('### tokensFromAPI ###: ', tokensFromAPI);
                 }
-                console.log('### tokenList: ', tokenList);
+                // console.log('### tokenList: ', tokenList);
                 const updatedTokensChainsCache = Object.assign(Object.assign({}, tokensChainsCache), { [this.chainId]: {
                         timestamp: Date.now(),
                         data: tokenList,
