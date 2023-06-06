@@ -1,3 +1,4 @@
+import { toHex, fromHex } from 'tron-format-address';
 import EthQuery from 'eth-query';
 import { Mutex } from 'async-mutex';
 import {
@@ -106,9 +107,7 @@ export class AccountTrackerController extends BaseController<
     state?: Partial<AccountTrackerState>,
   ) {
     super(config, state);
-    this.defaultConfig = {
-      interval: 10000,
-    };
+    this.defaultConfig = { interval: 10000 };
     this.defaultState = { accounts: {} };
     this.initialize();
     this.getIdentities = getIdentities;
@@ -154,10 +153,21 @@ export class AccountTrackerController extends BaseController<
    */
   refresh = async () => {
     this.syncAccounts();
+    // console.log(" 🌈🌈🌈🌈🌈🌈🌈🌈refresh🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈");
+
     const accounts = { ...this.state.accounts };
+    // console.log(" 🌈🌈🌈 accounts: ", accounts);
     for (const address in accounts) {
+      const tronAddr = toHex(address);
+      // console.log(" 🌈🌈🌈#### address: ", address);
+      // console.log(" 🌈🌈🌈#### tronAddr: ", tronAddr);
       await safelyExecuteWithTimeout(async () => {
-        const balance = await query(this.ethQuery, 'getBalance', [address]);
+        // console.log(" 🌈🌈🌈#### query ###");
+        // console.log(" 🌈🌈🌈#### this.ethQuery: ", this.ethQuery);
+
+        const balance = await query(this.ethQuery, 'getBalance', [tronAddr]);
+        // console.log(" 🌈🌈🌈#### balance: ", balance);
+
         accounts[address] = { balance: BNToHex(balance) };
       });
     }
@@ -180,7 +190,8 @@ export class AccountTrackerController extends BaseController<
           return [address, balance];
         });
       }),
-    ).then((value) => {
+    )
+    .then((value) => {
       return value.reduce((obj, item) => {
         if (!item) {
           return obj;

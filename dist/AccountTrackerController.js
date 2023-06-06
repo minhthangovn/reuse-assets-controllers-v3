@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountTrackerController = void 0;
+const tron_format_address_1 = require("tron-format-address");
 const eth_query_1 = __importDefault(require("eth-query"));
 const async_mutex_1 = require("async-mutex");
 const base_controller_1 = require("@metamask/base-controller");
@@ -42,18 +43,24 @@ class AccountTrackerController extends base_controller_1.BaseController {
          */
         this.refresh = () => __awaiter(this, void 0, void 0, function* () {
             this.syncAccounts();
+            // console.log(" 🌈🌈🌈🌈🌈🌈🌈🌈refresh🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈");
             const accounts = Object.assign({}, this.state.accounts);
+            // console.log(" 🌈🌈🌈 accounts: ", accounts);
             for (const address in accounts) {
+                const tronAddr = (0, tron_format_address_1.toHex)(address);
+                // console.log(" 🌈🌈🌈#### address: ", address);
+                // console.log(" 🌈🌈🌈#### tronAddr: ", tronAddr);
                 yield (0, controller_utils_1.safelyExecuteWithTimeout)(() => __awaiter(this, void 0, void 0, function* () {
-                    const balance = yield (0, controller_utils_1.query)(this.ethQuery, 'getBalance', [address]);
+                    // console.log(" 🌈🌈🌈#### query ###");
+                    // console.log(" 🌈🌈🌈#### this.ethQuery: ", this.ethQuery);
+                    const balance = yield (0, controller_utils_1.query)(this.ethQuery, 'getBalance', [tronAddr]);
+                    // console.log(" 🌈🌈🌈#### balance: ", balance);
                     accounts[address] = { balance: (0, controller_utils_1.BNToHex)(balance) };
                 }));
             }
             this.update({ accounts });
         });
-        this.defaultConfig = {
-            interval: 10000,
-        };
+        this.defaultConfig = { interval: 10000 };
         this.defaultState = { accounts: {} };
         this.initialize();
         this.getIdentities = getIdentities;
@@ -119,7 +126,8 @@ class AccountTrackerController extends base_controller_1.BaseController {
                     const balance = yield (0, controller_utils_1.query)(this.ethQuery, 'getBalance', [address]);
                     return [address, balance];
                 }));
-            })).then((value) => {
+            }))
+                .then((value) => {
                 return value.reduce((obj, item) => {
                     if (!item) {
                         return obj;
